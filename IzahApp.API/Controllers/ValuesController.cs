@@ -18,24 +18,25 @@ namespace IzahApp.API.Controllers
         public ValuesController(DataContext context)
         {
             _context = context;
-
         }
+
         // GET api/values
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
-
             var values = await _context.Values.ToListAsync();
 
             return Ok(values);
         }
 
-        [AllowAnonymous]
         // GET api/values/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetValues(int id)
+        public async Task<IActionResult> GetValue(int id)
         {
-            var value = await _context.Values.FirstOrDefaultAsync(x =>x.id==id);
+            var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
+
             return Ok(value);
         }
 

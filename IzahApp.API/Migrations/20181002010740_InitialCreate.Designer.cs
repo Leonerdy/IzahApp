@@ -8,23 +8,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IzahApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20181002010740_InitialCreate")]
+    [Migration("20180713161548_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.3-rtm-32065");
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846");
 
-            modelBuilder.Entity("IzahApp.API.Models.Value", b =>
+            modelBuilder.Entity("DatingApp.API.Models.Value", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Values");
                 });

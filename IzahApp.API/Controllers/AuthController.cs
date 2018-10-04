@@ -27,12 +27,10 @@ namespace IzahApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            // validade request
-
             userForRegisterDto.Username = userForRegisterDto.Username.ToLower();
 
             if (await _repo.UserExists(userForRegisterDto.Username))
-                return BadRequest("Nome de usuário já existe");
+                return BadRequest("Username already exists");
 
             var userToCreate = new User
             {
@@ -43,11 +41,11 @@ namespace IzahApp.API.Controllers
 
             return StatusCode(201);
         }
-
+        [HttpOptions]
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto UserForLoginDto)
+        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var userFromRepo = await _repo.Login(UserForLoginDto.Username.ToLower(), UserForLoginDto.Password);
+            var userFromRepo = await _repo.Login(userForLoginDto.Username, userForLoginDto.Password);
 
             if (userFromRepo == null)
                 return Unauthorized();
@@ -59,7 +57,7 @@ namespace IzahApp.API.Controllers
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8
-            .GetBytes(_config.GetSection("AppSettings:Token").Value));
+                .GetBytes(_config.GetSection("AppSettings:Token").Value));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
@@ -74,10 +72,9 @@ namespace IzahApp.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok (new {
+            return Ok(new {
                 token = tokenHandler.WriteToken(token)
             });
         }
-
     }
 }
